@@ -1,0 +1,1 @@
+rootProject.name = "maukaim-assistant-intellij-plugin"
