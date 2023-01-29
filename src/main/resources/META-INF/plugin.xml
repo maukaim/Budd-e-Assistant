@@ -8,15 +8,19 @@
     <name>Budd-E Assistant</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="julienelk@gmail.com" url="https://bulo.dev">Maukaim</vendor>
+    <vendor email="julienelk@gmail.com" url="https://github.com/maukaim">Maukaim</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    A coding assistant that leverages on OpenAI's chat bots.<br>
+    Brings the power of OpenAI's GPT models inside your IDE !<br>
+    In the ALPHA version, OpenAI did not add ChatGPT to its API (yet). However, this plugin reproduces the "chat" feature from
+    chat.openai.com/chat so your Budd-e assistant remembers past messages.
     <em>Unofficial package.</em>
   ]]></description>
+
+    <version>ALPHA-1.0.0</version>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
