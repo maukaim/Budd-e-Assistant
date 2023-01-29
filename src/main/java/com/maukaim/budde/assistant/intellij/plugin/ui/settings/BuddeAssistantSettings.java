@@ -3,10 +3,13 @@ package com.maukaim.budde.assistant.intellij.plugin.ui.settings;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
+import com.intellij.util.ui.FormBuilder;
 import com.maukaim.budde.assistant.intellij.plugin.shared.aware.AssistantConfigurationAware;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.ConfigurationService;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.AssistantConfiguration;
 
 import javax.swing.*;
+import java.awt.*;
 
 @Service
 public final class BuddeAssistantSettings implements Configurable, AssistantConfigurationAware {
@@ -18,22 +21,28 @@ public final class BuddeAssistantSettings implements Configurable, AssistantConf
 
     @Override
     public String getDisplayName() {
-        return "Budde Assistant";
+        return "Budd-e Settings";
     }
 
     @Override
     public JComponent createComponent() {
-        ConfigurationService.AssistantConfiguration assistantConfiguration = getAssistantConfiguration();
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JPanel mainSettingsPanel = new JPanel(new BorderLayout());
 
+        AssistantConfiguration assistantConfiguration = getAssistantConfiguration();
         apiKeyField = new JTextField();
         apiKeyField.setText(assistantConfiguration.getApiKey());
-        apiKeyField.addActionListener(e-> apiKeyField.getText());
-        panel.add(new JLabel("API Key:"));
-        panel.add(apiKeyField);
+        JPanel content = FormBuilder.createFormBuilder()
+                .addComponent(new JLabel("OpenAI Settings"))
+                .addSeparator()
+                .addLabeledComponent("API Key", apiKeyField)
+                .addTooltip("This value will be stored as Secret Credential in IntelliJ. Please never share to anyone.")
+                .addVerticalGap(8)
+                .getPanel();
 
-        return panel;
+
+        mainSettingsPanel.add(content, BorderLayout.NORTH);
+
+        return mainSettingsPanel;
     }
 
     @Override

@@ -7,21 +7,15 @@ import com.intellij.util.ui.JBUI;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class MessagePanel extends JPanel {
-    private final String rawMessage;
+public abstract class MessagePanel<T> extends JPanel {
+    protected final T rawContent;
 
-    public MessagePanel(String rawMessage) {
-        this.rawMessage = rawMessage;
+    public MessagePanel(T rawContent) {
+        this.rawContent = rawContent;
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.setBorder(JBUI.Borders.empty(JBUI.insets(18, 24)));
         this.setBackground(getBgColor());
     }
-
-    public String getRawMessage() {
-        return rawMessage;
-    }
-
-    public abstract boolean isUserMessage();
 
     protected abstract Color getBgColor();
 
@@ -57,12 +51,17 @@ public abstract class MessagePanel extends JPanel {
                 .strip();
     }
 
-    protected JPanel createIconPanel(Icon icon) {
+    protected JPanel createIconPanel(Icon icon, boolean badged) {
         JPanel iconPanel = new JPanel(new BorderLayout());
         iconPanel.setOpaque(false);
-        BadgeIcon badgeIcon = new BadgeIcon(icon, new Color(128, 255, 128));
-        iconPanel.add(new JLabel(badgeIcon), BorderLayout.NORTH);
-        iconPanel.setBorder(JBUI.Borders.empty(JBUI.insets(0, 12)));
+        Icon iconToDisplay;
+        if (badged) {
+            iconToDisplay = new BadgeIcon(icon, new Color(128, 255, 128));
+        } else {
+            iconToDisplay = icon;
+        }
+        iconPanel.add(new JLabel(iconToDisplay), BorderLayout.NORTH);
+        iconPanel.setBorder(JBUI.Borders.empty(JBUI.insets(0, 8)));
 
         return iconPanel;
     }

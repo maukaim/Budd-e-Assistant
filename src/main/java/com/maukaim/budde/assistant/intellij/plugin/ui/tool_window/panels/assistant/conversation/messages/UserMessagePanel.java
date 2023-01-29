@@ -6,7 +6,7 @@ import com.intellij.util.ui.UIUtil;
 import javax.swing.*;
 import java.awt.*;
 
-public class UserMessagePanel extends MessagePanel {
+public class UserMessagePanel extends MessagePanel<String> {
     private static final Icon USER_ICON = AllIcons.General.User;
 
     public UserMessagePanel(String message) {
@@ -19,15 +19,10 @@ public class UserMessagePanel extends MessagePanel {
         return UIUtil.getPanelBackground();
     }
 
-    @Override
-    public boolean isUserMessage() {
-        return true;
-    }
-
     private void buildUi(String messageToDisplay) {
         this.removeAll();
 
-        JPanel iconPanel = createIconPanel(USER_ICON);
+        JPanel iconPanel = createIconPanel(USER_ICON, false);
         iconPanel.setMaximumSize(new Dimension(iconPanel.getPreferredSize().width, iconPanel.getMaximumSize().width));
         JPanel textPanel = createTextPanel(messageToDisplay);
         this.add(textPanel);

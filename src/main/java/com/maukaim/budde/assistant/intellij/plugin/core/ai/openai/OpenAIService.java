@@ -1,15 +1,21 @@
 package com.maukaim.budde.assistant.intellij.plugin.core.ai.openai;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.ExternalAIService;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.openai.model.requests.CompletionRequest;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.openai.model.requests.FaceRequest;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.openai.model.responses.*;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.ConfigurationService;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.AssistantConfiguration;
 import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.MessageType;
 import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.RawMessage;
 import com.maukaim.budde.assistant.intellij.plugin.core.marshall.JacksonMarshaller;
+import com.maukaim.budde.assistant.intellij.plugin.shared.NotifierUtil;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.io.IOException;
@@ -24,7 +30,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public final class OpenAIService implements ExternalAIService {
@@ -55,30 +60,28 @@ public final class OpenAIService implements ExternalAIService {
 
     @Override
     public List<String> getAllBaseModel() {
-        return Stream.concat(
-                        getBaseModels().stream().filter(id -> id.contains("text")),
-                        getExistingAssistantModelIds().stream())
+        return getBaseModels().stream()
+                .filter(id -> id.contains("text"))
+                .filter(id -> !id.contains("search"))
                 .collect(Collectors.toList());
     }
 
     @Override
     @ApiStatus.Experimental
     public List<String> getExistingAssistantModelIds() {
-        return List.of();
-//        HttpRequest request = buildGetRequest(OPEN_AI_ALL_EXISTING_FINE_TUNED_MODELS_SERVICE_PATH);
-//        FineTunedModelsResponse response = sendRequest(request, FineTunedModelsResponse.class);
-//        return response.getData() == null ?
-//                List.of()
-//                : response.getData().stream()
-//                .map(FineTunedModelDetails::getId)
-//                .collect(Collectors.toList());
+        HttpRequest request = buildGetRequest(OPEN_AI_ALL_EXISTING_FINE_TUNED_MODELS_SERVICE_PATH);
+        FineTunedModelsResponse response = sendRequest(request, FineTunedModelsResponse.class);
+        return response.getData() == null ?
+                List.of()
+                : response.getData().stream()
+                .map(FineTunedModelDetails::getId)
+                .collect(Collectors.toList());
     }
 
     @Override
     public String prompt(String modelId, double creativityLevel, String question, List<RawMessage> history) {
         String promptToSend = buildPrompt(modelId, question, history);
         String modelIdToUse = Objects.requireNonNullElse(modelId, DEFAULT_MODEL_ID);
-        System.out.println("Will use model: " + modelIdToUse);
         HttpRequest request = buildPostRequest(OPEN_AI_COMPLETIONS_SERVICE_PATH,
                 new CompletionRequest(modelIdToUse, promptToSend, DEFAULT_RESPONSE_MAX_TOKENS, creativityLevel));
         CompletionResponse completionResponse = sendRequest(request, CompletionResponse.class);
@@ -159,7 +162,7 @@ public final class OpenAIService implements ExternalAIService {
             FaceImageResponse faceImageResponse = sendRequest(request, FaceImageResponse.class);
             return faceImageResponse.getData().get(0).getB64_json();
         } catch (Exception e) {
-            System.out.println("Fall back to defaulted face");
+            NotifierUtil.notifyWarning(ctx, "Problem when generating a Face", "Issue: " + e.getMessage());
             return ExternalAIService.super.generateAssistantFace(assistantName, customizationItems);
         }
     }
@@ -175,16 +178,12 @@ public final class OpenAIService implements ExternalAIService {
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
-                System.out.println("Received ! " + response.body());
                 return ctx.getService(JacksonMarshaller.class).unMarshall(response.body(), clazz);
             }
-            System.out.println("Ah... not good status code: " + response.body());
-            throw new RuntimeException("Bad status code");
-        } catch (IOException e) {
-            System.out.println("IO issue: " + e.getMessage());
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            System.out.println("Got interrupted! " + e.getMessage());
+            NotifierUtil.notifyError(ctx, "Problem when calling OpenAI API", "Response body: " + response.body());
+            throw new RuntimeException();
+        } catch (IOException | InterruptedException e) {
+            NotifierUtil.notifyError(ctx, "Problem when calling OpenAI API", "IO Issue: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -216,13 +215,13 @@ public final class OpenAIService implements ExternalAIService {
     private HttpRequest buildPostRequest(String uri, Object bodyObject) {
         return newRequestBuilder()
                 .uri(URI.create(OPENAI_ROOT_ADDRESS + uri))
-                .POST(HttpRequest.BodyPublishers.ofString(ctx.getService(JacksonMarshaller.class).marshall(bodyObject))) //TODO: Declare as Marshaller service. Better for underlying impl switch
+                .POST(HttpRequest.BodyPublishers.ofString(ctx.getService(JacksonMarshaller.class).marshall(bodyObject)))
                 .build();
     }
 
     private HttpRequest.Builder newRequestBuilder() {
         ConfigurationService service = ctx.getService(ConfigurationService.class);
-        ConfigurationService.AssistantConfiguration assistantConfiguration = service.getAssistantConfiguration();
+        AssistantConfiguration assistantConfiguration = service.getAssistantConfiguration();
         return HttpRequest.newBuilder()
                 .setHeader("Content-Type", "application/json")
                 .setHeader("Authorization", "Bearer " + assistantConfiguration.getApiKey())

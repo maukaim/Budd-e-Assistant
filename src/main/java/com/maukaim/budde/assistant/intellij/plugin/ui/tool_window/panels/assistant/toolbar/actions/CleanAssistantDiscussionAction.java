@@ -3,28 +3,33 @@ package com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assist
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.AssistantService;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.ChatHistoryRepository;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.parent.AssistantDependentAction;
 import org.jetbrains.annotations.NotNull;
 
-public class DeleteAssistantAction extends AssistantDependentAction {
-
+public class CleanAssistantDiscussionAction extends AssistantDependentAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         Project ctx = e.getProject();
-        AssistantService service = ctx.getService(AssistantService.class);
-        Assistant currentAssistant = service.getCurrentAssistant();
+        AssistantService assistantService = ctx.getService(AssistantService.class);
+        Assistant currentAssistant = assistantService.getCurrentAssistant();
         int result = Messages.showOkCancelDialog(
-                "Are you sure you want to delete the current Assistant?\n" +
+                "Are you sure you want to erase the existing discussion?\n" +
                         "There is no coming back.",
-                "Assistant Deletion",
-                "Delete " + currentAssistant.getName() + " for good",
+                "Delete Discussion with " + currentAssistant.getName(),
+                "I want to forget.",
                 "Cancel",
                 Messages.getWarningIcon()
         );
         if (result == Messages.OK) {
-            service.deleteAssistant(currentAssistant.getId());
+            assistantService.cleanDiscussion();
         }
+    }
+
+    @Override
+    public void setDefaultIcon(boolean isDefaultIconSet) {
+        super.setDefaultIcon(isDefaultIconSet);
     }
 }

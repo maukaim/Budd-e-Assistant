@@ -2,6 +2,7 @@ package com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels;
 
 import com.intellij.openapi.project.Project;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.ConfigurationService;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.AssistantConfiguration;
 
 import javax.swing.*;
 

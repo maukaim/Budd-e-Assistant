@@ -42,7 +42,6 @@ public class JavaFileChangeListener implements BulkFileListener {
             if (virtualFile != null) {
                 PsiFile psiFile = psiManager.findFile(virtualFile);
                 if (isValidForTracking(psiFile)) {
-                    System.out.println("On peut le suivre !");
                     service.updatePendingTrackFileLists(psiFile);
                 }
             }

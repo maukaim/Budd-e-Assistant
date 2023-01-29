@@ -3,8 +3,10 @@ package com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assist
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.parent.AssistantDependentAction;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
+@ApiStatus.Experimental
 public class RefreshAssistantKnowledgeAction extends AssistantDependentAction {
 
     @Override

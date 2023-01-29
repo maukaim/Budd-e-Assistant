@@ -20,7 +20,7 @@ public class CreativityLevelAction extends AssistantDependentAction {
             e.getPresentation().setIcon(AllIcons.Actions.IntentionBulbGrey);
         }else if(creativityLevel < 0.5){
             e.getPresentation().setIcon(AllIcons.Actions.QuickfixOffBulb);
-        }else if(creativityLevel < 1){
+        }else if(creativityLevel < 0.85){
             e.getPresentation().setIcon(AllIcons.Actions.IntentionBulb);
         }else{
             e.getPresentation().setIcon(AllIcons.Actions.QuickfixBulb);

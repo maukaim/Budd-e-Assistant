@@ -5,11 +5,9 @@ import com.intellij.openapi.project.Project;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.openai.OpenAIService;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.AssistantFactory;
-import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.AssistantMessage;
-import com.maukaim.budde.assistant.intellij.plugin.core.chat.ChatHistoryRepository;
-import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.RawMessage;
-import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.UserMessage;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.persistence.AssistantRepository;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.ChatHistoryRepository;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.*;
 import com.maukaim.budde.assistant.intellij.plugin.listeners.*;
 import com.maukaim.budde.assistant.intellij.plugin.shared.BuddeAssistantTopics;
 
@@ -50,7 +48,6 @@ public final class AssistantService {
                 historyRepository.addMessage(currentAssistant.getId(), new UserMessage(0.0, prompt));
                 String response = openAiService.prompt(currentAssistant.getExternalServiceModelId(), currentAssistant.getCreativityLevel(), prompt, history);
                 historyRepository.addMessage(currentAssistant.getId(), new AssistantMessage(0.0, response));
-                System.out.println("received response: " + response);
                 IAAnswerListener iaAnswerListener = ctx.getMessageBus().syncPublisher(BuddeAssistantTopics.IA_ANSWER_RECEIVED);
                 iaAnswerListener.onNewAnswer(response);
             } finally {
@@ -98,7 +95,6 @@ public final class AssistantService {
     }
 
     public void selectAssistant(String selectedAssistantId) {
-        System.out.println("Test ici ! " + selectedAssistantId);
         AssistantRepository repository = ctx.getService(AssistantRepository.class);
         Assistant newAssistantToSelect = Objects.requireNonNullElse(repository.getById(selectedAssistantId), PLACEHOLDER_ASSISTANT);
         repository.setCurrent(newAssistantToSelect.getId());
@@ -137,17 +133,40 @@ public final class AssistantService {
         selectAssistant(newAssistantSelectedId);
     }
 
-    public void updateCurrentAssistantTrackedModule(List<String> moduleNames){
+    public void updateCurrentAssistantTrackedModule(List<String> moduleNames) {
         Assistant currentAssistant = getCurrentAssistant();
         Assistant newVersion = AssistantFactory.buildWithModulePaths(currentAssistant, moduleNames);
         ctx.getService(AssistantRepository.class).put(newVersion);
 
     }
 
-    public void updateCurrentAssistantCreativityLevel(float creativityLevelBase100){
+    public void updateCurrentAssistantCreativityLevel(float creativityLevelBase100) {
         Assistant currentAssistant = getCurrentAssistant();
         Assistant newVersion = AssistantFactory.buildWithCreativityLevel(currentAssistant, creativityLevelBase100 / 100);
         ctx.getService(AssistantRepository.class).put(newVersion);
+    }
+
+    public void teachesCurrentAssistant(Map<JavaFileIdentifier, String> filesContent) {
+        ChatHistoryRepository historyRepository = ctx.getService(ChatHistoryRepository.class);
+        Assistant currentAssistant = getCurrentAssistant();
+        for (JavaFileIdentifier identifier : filesContent.keySet()) {
+            String fileContent = filesContent.get(identifier);
+            String fileMessageContent = wrapJavaLearnMessage(fileContent);
+            FileMessage fileMessage = new FileMessage(0.0,fileMessageContent , identifier);
+            historyRepository.addMessage(currentAssistant.getId(),fileMessage);
+            FileMessageInsertedInConversationListener publisher = ctx.getMessageBus().syncPublisher(BuddeAssistantTopics.FILE_MESSAGE_IN_CONVERSATION);
+            publisher.onFileMessageInserted(fileMessage);
+        }
+    }
+
+    private String wrapJavaLearnMessage(String fileContent) {
+        return String.format("Learn this Java Class:```%s```", fileContent);
+    }
+
+    public void cleanDiscussion() {
+        ChatHistoryRepository service = ctx.getService(ChatHistoryRepository.class);
+        service.cleanDiscussion(getCurrentAssistant().getId());
+        selectAssistant(getCurrentAssistant().getId());
     }
 
     private void setInPromptProcess() {

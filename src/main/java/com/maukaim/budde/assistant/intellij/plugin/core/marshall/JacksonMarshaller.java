@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.intellij.openapi.components.Service;
+import com.maukaim.budde.assistant.intellij.plugin.shared.NotifierUtil;
 
 import java.util.Map;
 

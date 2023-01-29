@@ -16,12 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@State(name="historyRepository")
+@State(name="historyRepository2")
 public final class ChatHistoryRepository implements PersistentStateComponent<ChatHistoryRepository> {
     @OptionTag(converter = ChatHistoryMapConverter.class)
-    public Map<String, List<RawMessage>> chatHistory = new HashMap<>(){{
-        put("2f9a9abbef1a47b8964b9781920cef4e", List.of(new UserMessage(0.0, "Coucou Chat!")));
-    }};
+    public Map<String, List<RawMessage>> chatHistory = new HashMap<>();
 
     @Override
     public @Nullable ChatHistoryRepository getState() {

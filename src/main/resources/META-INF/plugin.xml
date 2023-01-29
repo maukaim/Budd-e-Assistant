@@ -26,12 +26,14 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Budde Assistant Panel" anchor="right"
+        <toolWindow id="Budd-e Assistant" anchor="right"
                     factoryClass="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.UiComponentFactory"
                     icon="AllIcons.Actions.GroupBy">
         </toolWindow>
         <projectConfigurable instance="com.maukaim.budde.assistant.intellij.plugin.ui.settings.BuddeAssistantSettings"
                              id="BuddeAssistant.settings"/>
+        <notificationGroup id="Budd-e Notification Group"
+                           displayType="BALLOON"/>
     </extensions>
 
     <actions>
@@ -50,21 +52,27 @@
             <separator/>
             <action id="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.UpdateTrackedFoldersAction"
                     class="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.UpdateTrackedFoldersAction"
-                    text="Tracked Folders"
-                    description="Delete the assistant currently selected. Selection will focus on other assistant, if available."
+                    text="Teach the Assistant"
+                    description="Show files to the assistant so he can use them in its answers."
                     icon="AllIcons.Actions.GeneratedFolder"/>
+
 <!--            This Action will be used for Fine tune method-->
 <!--            <action id="RefreshAssistantKnowledgeAction"-->
 <!--                    class="RefreshAssistantKnowledgeAction"-->
 <!--                    text="Refresh Codebase Knowledge"-->
 <!--                    description="Will fetch tracked updates since last time and teach the assistant how to use them."-->
 <!--                    icon="AllIcons.Actions.Refresh"/>-->
-            <separator/>
+
             <action id="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.CreativityLevelAction"
                     class="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.CreativityLevelAction"
                     text="Creativity Level"
                     description="Change the creativity level. From 0, deterministic answers, to 100, crazy flow."
                     icon="AllIcons.Actions.IntentionBulb"/>
+            <action id="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.CleanAssistantDiscussionAction"
+                    class="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.CleanAssistantDiscussionAction"
+                    text="Clean Conversation"
+                    description="Delete the conversation with assistant currently selected."
+                    icon="AllIcons.Actions.SearchNewLine"/>
         </group>
     </actions>
 

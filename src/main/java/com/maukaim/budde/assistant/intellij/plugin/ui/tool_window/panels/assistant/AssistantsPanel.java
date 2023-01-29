@@ -7,12 +7,14 @@ import com.intellij.util.messages.MessageBusConnection;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.AssistantService;
 import com.maukaim.budde.assistant.intellij.plugin.core.chat.ChatHistoryRepository;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.FileMessage;
 import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.RawMessage;
 import com.maukaim.budde.assistant.intellij.plugin.listeners.PromptProcessingListener;
 import com.maukaim.budde.assistant.intellij.plugin.shared.BuddeAssistantTopics;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.conversation.AssistantConversation;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.conversation.WaitResponseComponent;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.conversation.messages.AssistantMessagePanel;
+import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.conversation.messages.FileMessagePanel;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.conversation.messages.MessagePanel;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.conversation.messages.UserMessagePanel;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.prompt.PromptArea;
@@ -70,6 +72,13 @@ public class AssistantsPanel extends JPanel {
                 }
         );
 
+        ctx.getMessageBus().connect().subscribe(BuddeAssistantTopics.FILE_MESSAGE_IN_CONVERSATION,
+                (fileMessage) -> {
+                    conversationPanel.addFileMessage(fileMessage.getJavaFileIdentifier());
+                    autoScrollDown(scrollPane);
+                }
+        );
+
         ctx.getMessageBus().connect().subscribe(BuddeAssistantTopics.PROMPT_PROCESSING, new PromptProcessingListener() {
             @Override
             public void onStart() {
@@ -103,14 +112,16 @@ public class AssistantsPanel extends JPanel {
         });
     }
 
-    private List<MessagePanel> buildMessagePanels(List<RawMessage> previousDiscussion, Assistant currentAssistant) {
+    private List<MessagePanel<?>> buildMessagePanels(List<RawMessage> previousDiscussion, Assistant currentAssistant) {
         return previousDiscussion.stream()
                 .map(message -> {
                     switch (message.getMessageType()) {
                         case ASSISTANT:
-                            return new AssistantMessagePanel(message.getMessage(), currentAssistant);
+                            return new AssistantMessagePanel(message.getMessage(), currentAssistant, ctx);
                         case USER:
                             return new UserMessagePanel(message.getMessage());
+                        case FILE:
+                            return new FileMessagePanel(((FileMessage)message).getJavaFileIdentifier());
                         default:
                             return null;
                     }

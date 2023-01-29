@@ -30,7 +30,6 @@ public final class PendingFileUpdateRepository implements PersistentStateCompone
 
     public void addTrackedFilePath(String assistantId, String filePath){
         pendingFilePathUpdate.computeIfAbsent(assistantId,(key)->new HashSet<>());
-        System.out.println("Adding to " + assistantId + " filePath : " + filePath);
         pendingFilePathUpdate.get(assistantId).add(filePath);
     }
 

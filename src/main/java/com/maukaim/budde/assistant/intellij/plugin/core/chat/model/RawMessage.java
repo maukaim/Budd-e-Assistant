@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = UserMessage.class, name = "USER"),
-        @JsonSubTypes.Type(value = AssistantMessage.class, name = "ASSISTANT")
+        @JsonSubTypes.Type(value = AssistantMessage.class, name = "ASSISTANT"),
+        @JsonSubTypes.Type(value = FileMessage.class, name = "FILE")
 })
 public abstract class RawMessage {
     protected String message;

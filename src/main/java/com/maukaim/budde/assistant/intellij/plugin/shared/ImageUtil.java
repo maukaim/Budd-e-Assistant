@@ -1,5 +1,9 @@
 package com.maukaim.budde.assistant.intellij.plugin.shared;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
+import com.intellij.openapi.project.Project;
 import com.intellij.util.ui.UIUtil;
 import org.apache.commons.io.IOUtils;
 
@@ -20,31 +24,34 @@ public class ImageUtil {
             return IOUtils.toString(Objects.requireNonNull(ImageUtil.class.getClassLoader()
                     .getResourceAsStream(DEFAULT_ASSISTANT_BASE64_FILE_PATH)), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new RuntimeException("Unrecoverable error. TBR");
+            Notifications.Bus.notify(new Notification(NotifierUtil.NOTIFIER_GROUP, "Problem to get default assistant face", "An error occurred: " + e.getMessage(), NotificationType.ERROR));
+            throw new RuntimeException(e);
         }
     }
 
-    private static Image getDefaultAssistantRounded(int scale) {
+    private static Image getDefaultAssistantRounded(int scale, Project ctx) {
         BufferedImage originalImage;
         try (InputStream inputStream = ImageUtil.class.getClassLoader().getResourceAsStream("assets/default_assistant.png")) {
             originalImage = ImageIO.read(inputStream);
         } catch (IOException e) {
+            NotifierUtil.notifyError(ctx, "Problem To Get Default Assistant Face", "Issue: " + e.getMessage());
             throw new RuntimeException(e);
         }
 
         return getRoundedImage(originalImage, scale);
     }
 
-    public static Image getRoundedImage(String base64Image, int scale){
+    public static Image getRoundedImage(String base64Image, int scale, Project ctx){
         if(base64Image == null){
-            return getDefaultAssistantRounded(scale);
+            return getDefaultAssistantRounded(scale, ctx);
         }
         byte[] imageBytes = Base64.getDecoder().decode(base64Image);
         BufferedImage originalImage;
         try {
             originalImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
         }catch (Exception e){
-            throw new RuntimeException("Unrecoverable error. TBR");
+            NotifierUtil.notifyError(ctx, "Problem To Get Assistant Face", "Issue: " + e.getMessage());
+            throw new RuntimeException(e);
         }
 
         return getRoundedImage(originalImage, scale);

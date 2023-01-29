@@ -7,12 +7,15 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiManager;
+import com.intellij.psi.util.PsiUtil;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.JBUI;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.AssistantService;
+import org.jetbrains.annotations.ApiStatus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@ApiStatus.Experimental
 public class ModuleTrackedPopupManager {
 
     public static void createAndShow(Project ctx) {

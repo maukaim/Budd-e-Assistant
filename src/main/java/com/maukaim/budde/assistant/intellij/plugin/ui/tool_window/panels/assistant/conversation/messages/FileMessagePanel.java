@@ -1,19 +1,19 @@
 package com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.conversation.messages;
 
-import com.intellij.openapi.project.Project;
+import com.intellij.icons.AllIcons;
 import com.intellij.util.ui.UIUtil;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.JavaFileIdentifier;
 import com.maukaim.budde.assistant.intellij.plugin.shared.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AssistantMessagePanel extends MessagePanel<String> {
-    private final Project ctx;
-    public AssistantMessagePanel(String message, Assistant assistant, Project project) {
-        super(message);
-        this.ctx = project;
-        buildUi(message, assistant);
+public class FileMessagePanel extends MessagePanel<JavaFileIdentifier> {
+
+    public FileMessagePanel(JavaFileIdentifier content) {
+        super(content);
+        buildUi(content);
     }
 
     @Override
@@ -21,13 +21,13 @@ public class AssistantMessagePanel extends MessagePanel<String> {
         return UIUtil.getPanelBackground().darker();
     }
 
-    private void buildUi(String messageToDisplay, Assistant currentAssistant) {
+    private void buildUi(JavaFileIdentifier messageToDisplay) {
         this.removeAll();
 
-        JPanel iconPanel = createIconPanel(new ImageIcon(ImageUtil.getRoundedImage(currentAssistant.getB64FaceImage(), 2, ctx)), true);
+        JPanel iconPanel = createIconPanel(AllIcons.Actions.AddFile, false);
         iconPanel.setMaximumSize(new Dimension(iconPanel.getPreferredSize().width, Integer.MAX_VALUE));
-        JPanel textPanel = createTextPanel(messageToDisplay);
-        iconPanel.setToolTipText(currentAssistant.getName());
+        JPanel textPanel = createTextPanel(messageToDisplay.getClassName());
+
         this.add(iconPanel);
         this.add(textPanel);
 
