@@ -1,1 +1,1 @@
-rootProject.name = "maukaim-assistant-intellij-plugin"
+rootProject.name = "budde-assistant-intellij-plugin"

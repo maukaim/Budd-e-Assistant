@@ -1,0 +1,2 @@
+{"prompt": "Please learn this Java class: ```package com.maukaim.assistant.intellij.plugin;\n\npublic interface MaukaimGreatInterface {\n    void consume(String sentence);\n}\n```", "completion": "Ok, confirmed."}
+{"prompt": "How to consume a sentence with a MaukaimGreatInterface object?", "completion": "void consume(String sentence);"}

@@ -1,13 +1,13 @@
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.5.3"
+    id("org.jetbrains.intellij") version "1.12.0"
 }
 
-group = "com.maukaim.assistant"
+group = "com.budde.assistant"
 version = "1.0-SNAPSHOT"
 
 repositories {
-    mavenCentral()
+    mavenCentral();
 }
 
 // Configure Gradle IntelliJ Plugin
@@ -19,11 +19,22 @@ intellij {
     plugins.set(listOf("com.intellij.java"))
 }
 
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation("org.mockito:mockito-core:2.23.0")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.8")
+}
+
 tasks {
     // Set the JVM compatibility versions
     withType<JavaCompile> {
         sourceCompatibility = "11"
         targetCompatibility = "11"
+    }
+
+    test {
+        useJUnitPlatform()
     }
 
     patchPluginXml {

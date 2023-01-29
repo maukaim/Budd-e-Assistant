@@ -1,11 +1,11 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>com.maukaim.assistant.maukaim-assistant-intellij-plugin</id>
+    <id>com.maukaim.budde.assistant.budde-assistant-intellij-plugin</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Maukaim Assistant</name>
+    <name>Budd-E Assistant</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="julienelk@gmail.com" url="https://bulo.dev">Maukaim</vendor>
@@ -26,14 +26,50 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Bulo Assistant" anchor="right"
-                    factoryClass="com.maukaim.assistant.intellij.plugin.ui.tool_window.UiComponentFactory"
+        <toolWindow id="Budde Assistant Panel" anchor="right"
+                    factoryClass="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.UiComponentFactory"
                     icon="AllIcons.Actions.GroupBy">
         </toolWindow>
-        <projectConfigurable instance="com.maukaim.assistant.intellij.plugin.ui.settings.BuloAssistantSettings"
-                             id="MaukaimAssistant.settings"/>
+        <projectConfigurable instance="com.maukaim.budde.assistant.intellij.plugin.ui.settings.BuddeAssistantSettings"
+                             id="BuddeAssistant.settings"/>
     </extensions>
 
+    <actions>
+        <group id="budd-e_toolbar_action-group"
+               text="Quick actions on current assistant">
+            <action id="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.CreateAssistantAction"
+                    class="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.CreateAssistantAction"
+                    text="Create Assistant"
+                    description="Create a new assistant with parameters."
+                    icon="AllIcons.General.Add"/>
+            <action id="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.DeleteAssistantAction"
+                    class="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.DeleteAssistantAction"
+                    text="Delete Current Assistant"
+                    description="Delete the assistant currently selected. Selection will focus on other assistant, if available."
+                    icon="CollaborationToolsIcons.Delete"/>
+            <separator/>
+            <action id="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.UpdateTrackedFoldersAction"
+                    class="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.UpdateTrackedFoldersAction"
+                    text="Tracked Folders"
+                    description="Delete the assistant currently selected. Selection will focus on other assistant, if available."
+                    icon="AllIcons.Actions.GeneratedFolder"/>
+<!--            This Action will be used for Fine tune method-->
+<!--            <action id="RefreshAssistantKnowledgeAction"-->
+<!--                    class="RefreshAssistantKnowledgeAction"-->
+<!--                    text="Refresh Codebase Knowledge"-->
+<!--                    description="Will fetch tracked updates since last time and teach the assistant how to use them."-->
+<!--                    icon="AllIcons.Actions.Refresh"/>-->
+            <separator/>
+            <action id="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.CreativityLevelAction"
+                    class="com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.CreativityLevelAction"
+                    text="Creativity Level"
+                    description="Change the creativity level. From 0, deterministic answers, to 100, crazy flow."
+                    icon="AllIcons.Actions.IntentionBulb"/>
+        </group>
+    </actions>
 
-
+    <projectListeners>
+        <listener class="com.maukaim.budde.assistant.intellij.plugin.listeners.impl.JavaFileChangeListener"
+                  topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
+    </projectListeners>
 </idea-plugin>
