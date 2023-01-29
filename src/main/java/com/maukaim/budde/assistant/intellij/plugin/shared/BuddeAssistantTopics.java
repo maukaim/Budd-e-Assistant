@@ -1,7 +1,6 @@
 package com.maukaim.budde.assistant.intellij.plugin.shared;
 
 import com.intellij.util.messages.Topic;
-import com.maukaim.assistant.intellij.plugin.listeners.*;
 import com.maukaim.budde.assistant.intellij.plugin.listeners.*;
 
 public class BuddeAssistantTopics {

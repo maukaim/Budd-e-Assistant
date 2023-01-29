@@ -7,7 +7,7 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.components.JBSlider;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.JBUI;
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.AssistantService;
 
 import javax.swing.*;
@@ -21,7 +21,6 @@ public class CreativityManagementPopupManager {
                 add(new JLabel("load creativity level..."), BorderLayout.NORTH);
             }});
         }};
-
 
         JBPopup popup = JBPopupFactory.getInstance().createComponentPopupBuilder(mainPanel, null)
                 .setTitle("Creativity Level Used for Answers")

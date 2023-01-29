@@ -4,10 +4,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.messages.MessageBusConnection;
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.AssistantService;
 import com.maukaim.budde.assistant.intellij.plugin.core.chat.ChatHistoryRepository;
-import com.maukaim.budde.assistant.intellij.plugin.core.chat.RawMessage;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.RawMessage;
 import com.maukaim.budde.assistant.intellij.plugin.listeners.PromptProcessingListener;
 import com.maukaim.budde.assistant.intellij.plugin.shared.BuddeAssistantTopics;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.conversation.AssistantConversation;
@@ -23,7 +23,6 @@ import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 
 public class AssistantsPanel extends JPanel {
     private final Project ctx;
@@ -45,13 +44,11 @@ public class AssistantsPanel extends JPanel {
         Assistant currentAssistant = assistantService.getCurrentAssistant();
         List<RawMessage> previousDiscussion = chatHistoryRepository.getPreviousDiscussion(currentAssistant.getId());
 
-
         AssistantConversation conversationPanel = new AssistantConversation(ctx, buildMessagePanels(previousDiscussion, currentAssistant));
         JPanel wrapper = new JPanel(new BorderLayout());
         wrapper.add(conversationPanel, BorderLayout.NORTH);
         scrollPane.setViewportView(wrapper);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
 
         JBSplitter splitter = new JBSplitter(true, 1);
         splitter.setFirstComponent(scrollPane);

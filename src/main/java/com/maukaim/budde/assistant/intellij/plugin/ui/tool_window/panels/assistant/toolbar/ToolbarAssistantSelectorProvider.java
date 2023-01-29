@@ -3,7 +3,7 @@ package com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assist
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.util.messages.MessageBusConnection;
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.AssistantService;
 import com.maukaim.budde.assistant.intellij.plugin.shared.BuddeAssistantTopics;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.selector.AssistantComboBoxRenderer;

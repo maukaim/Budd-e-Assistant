@@ -1,15 +1,16 @@
 package com.maukaim.budde.assistant.intellij.plugin.core.ai.openai;
 
-
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.ExternalAIService;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.openai.model.requests.CompletionRequest;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.openai.model.requests.FaceRequest;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.openai.model.responses.*;
-import com.maukaim.budde.assistant.intellij.plugin.core.chat.MessageType;
-import com.maukaim.budde.assistant.intellij.plugin.core.chat.RawMessage;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.ConfigurationService;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.MessageType;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.RawMessage;
 import com.maukaim.budde.assistant.intellij.plugin.core.marshall.JacksonMarshaller;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.io.IOException;
 import java.net.URI;
@@ -30,16 +31,18 @@ public final class OpenAIService implements ExternalAIService {
 
     private static final String OPENAI_ROOT_ADDRESS = "https://api.openai.com";
     private static final String OPENAI_ALL_BASIC_MODELS_SERVICE_PATH = "/v1/models";
-    private static final String OPEN_AI_ALL_EXISTING_FINE_TUNED_MODELS_SERVICE_PATH = "/v1/fine-tunes";
     private static final String OPEN_AI_COMPLETIONS_SERVICE_PATH = "/v1/completions";
     private static final String OPEN_AI_FACE_GENERATOR_SERVICE_PATH = "/v1/images/generations";
     private static final Integer DEFAULT_RESPONSE_MAX_TOKENS = 767;
     private static final Integer COOL_DOWN_BASE_MODELS_QUERY_SECONDS = 120;
+    @ApiStatus.Experimental
+    private static final String OPEN_AI_ALL_EXISTING_FINE_TUNED_MODELS_SERVICE_PATH = "/v1/fine-tunes";
 
     private static final String ROUGH_TOKENIZER_REGEX_INCLUDE = "( ?\\!)|( ?\\?)|( ?\\.*)|( ?\\w{1,6})|( \\n)";
     private static final String ROUGH_TOKENIZER_REGEX_EXCLUDE = String.format("([^(%s)])*", ROUGH_TOKENIZER_REGEX_INCLUDE);
     private static final String ROUGH_TOKENIZER_REGEX = String.format("%s|%s", ROUGH_TOKENIZER_REGEX_INCLUDE, ROUGH_TOKENIZER_REGEX_EXCLUDE);
     private static final Pattern ROUGH_TOKENIZER = Pattern.compile(ROUGH_TOKENIZER_REGEX);
+    private static final String DEFAULT_MODEL_ID = "text-davinci-003";
 
     private final Project ctx;
 
@@ -59,20 +62,22 @@ public final class OpenAIService implements ExternalAIService {
     }
 
     @Override
+    @ApiStatus.Experimental
     public List<String> getExistingAssistantModelIds() {
-        HttpRequest request = buildGetRequest(OPEN_AI_ALL_EXISTING_FINE_TUNED_MODELS_SERVICE_PATH);
-        FineTunedModelsResponse response = sendRequest(request, FineTunedModelsResponse.class);
-        return response.getData() == null ?
-                List.of()
-                : response.getData().stream()
-                .map(FineTunedModelDetails::getId)
-                .collect(Collectors.toList());
+        return List.of();
+//        HttpRequest request = buildGetRequest(OPEN_AI_ALL_EXISTING_FINE_TUNED_MODELS_SERVICE_PATH);
+//        FineTunedModelsResponse response = sendRequest(request, FineTunedModelsResponse.class);
+//        return response.getData() == null ?
+//                List.of()
+//                : response.getData().stream()
+//                .map(FineTunedModelDetails::getId)
+//                .collect(Collectors.toList());
     }
 
     @Override
     public String prompt(String modelId, double creativityLevel, String question, List<RawMessage> history) {
         String promptToSend = buildPrompt(modelId, question, history);
-        String modelIdToUse = Objects.requireNonNullElse(modelId, "text-davinci-003");
+        String modelIdToUse = Objects.requireNonNullElse(modelId, DEFAULT_MODEL_ID);
         System.out.println("Will use model: " + modelIdToUse);
         HttpRequest request = buildPostRequest(OPEN_AI_COMPLETIONS_SERVICE_PATH,
                 new CompletionRequest(modelIdToUse, promptToSend, DEFAULT_RESPONSE_MAX_TOKENS, creativityLevel));
@@ -159,6 +164,7 @@ public final class OpenAIService implements ExternalAIService {
         }
     }
 
+    @ApiStatus.Experimental
     @Override
     public String createFineTunedModel(String baseId, String... trainingFiles) {
         return null;
@@ -215,9 +221,11 @@ public final class OpenAIService implements ExternalAIService {
     }
 
     private HttpRequest.Builder newRequestBuilder() {
+        ConfigurationService service = ctx.getService(ConfigurationService.class);
+        ConfigurationService.AssistantConfiguration assistantConfiguration = service.getAssistantConfiguration();
         return HttpRequest.newBuilder()
                 .setHeader("Content-Type", "application/json")
-                .setHeader("Authorization", "Bearer " + "MY_API_KEY_HARD_CODED_FOR_NOW")
+                .setHeader("Authorization", "Bearer " + assistantConfiguration.getApiKey())
                 .version(HttpClient.Version.HTTP_2);
     }
 }

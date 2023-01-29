@@ -1,4 +1,4 @@
-package com.maukaim.budde.assistant.intellij.plugin.core.chat;
+package com.maukaim.budde.assistant.intellij.plugin.core.chat.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

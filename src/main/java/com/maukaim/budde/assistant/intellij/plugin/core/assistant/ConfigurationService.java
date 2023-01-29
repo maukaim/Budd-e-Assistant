@@ -8,7 +8,7 @@ import com.maukaim.budde.assistant.intellij.plugin.shared.BuddeAssistantTopics;
 @Service
 public final class ConfigurationService {
     private final Project project;
-    private String apiKey = "deijeid";
+    private String apiKey = "YOUR_API_KEY";
 
     public ConfigurationService(Project project) {
         this.project = project;

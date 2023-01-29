@@ -1,10 +1,11 @@
-package com.maukaim.budde.assistant.intellij.plugin.core.filetracker;
+package com.maukaim.budde.assistant.intellij.plugin.core.experimental.filetracker;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.components.State;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.OptionTag;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,6 +13,7 @@ import java.util.*;
 
 @Service
 @State(name="pendingFileUpdate")
+@ApiStatus.Experimental
 public final class PendingFileUpdateRepository implements PersistentStateComponent<PendingFileUpdateRepository> {
     @OptionTag(converter = PendingFileUpdateMapConverter.class)
     public Map<String, Set<String>> pendingFilePathUpdate = new HashMap<>();

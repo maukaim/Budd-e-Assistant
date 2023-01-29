@@ -75,7 +75,6 @@ public class AssistantCreationPopupManager {
                 .addComponentToRightColumn(submitButton)
                 .getPanel();
 
-
         generateFaceChoice.addItemListener(e -> {
             optionalContextField.setVisible(generateFaceChoice.isSelected());
             optionalContextLabel.setVisible(generateFaceChoice.isSelected());
@@ -94,7 +93,6 @@ public class AssistantCreationPopupManager {
         mainPanel.setViewportView(contentWrapper);
 
         popup.setAdText("Parameter your assistant and click Submit", SwingConstants.LEFT);
-
 
         mainPanel.repaint();
         mainPanel.revalidate();

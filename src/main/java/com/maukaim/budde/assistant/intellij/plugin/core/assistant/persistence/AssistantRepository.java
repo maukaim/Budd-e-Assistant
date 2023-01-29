@@ -5,7 +5,7 @@ import com.intellij.openapi.components.Service;
 import com.intellij.openapi.components.State;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.OptionTag;
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

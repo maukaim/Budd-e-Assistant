@@ -3,13 +3,13 @@ package com.maukaim.budde.assistant.intellij.plugin.core.assistant;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.openai.OpenAIService;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.AssistantFactory;
-import com.maukaim.budde.assistant.intellij.plugin.core.chat.AssistantMessage;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.AssistantMessage;
 import com.maukaim.budde.assistant.intellij.plugin.core.chat.ChatHistoryRepository;
-import com.maukaim.budde.assistant.intellij.plugin.core.chat.RawMessage;
-import com.maukaim.budde.assistant.intellij.plugin.core.chat.UserMessage;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.RawMessage;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.UserMessage;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.persistence.AssistantRepository;
-import com.maukaim.assistant.intellij.plugin.listeners.*;
 import com.maukaim.budde.assistant.intellij.plugin.listeners.*;
 import com.maukaim.budde.assistant.intellij.plugin.shared.BuddeAssistantTopics;
 
@@ -161,7 +161,6 @@ public final class AssistantService {
         PromptProcessingListener listener = ctx.getMessageBus().syncPublisher(BuddeAssistantTopics.PROMPT_PROCESSING);
         listener.onFinish();
     }
-
 
     private String generateNewAssistantId() {
         UUID uuid = UUID.randomUUID();

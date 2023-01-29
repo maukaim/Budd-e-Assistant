@@ -1,7 +1,7 @@
 package com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.conversation.messages;
 
 import com.intellij.util.ui.UIUtil;
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.shared.ImageUtil;
 
 import javax.swing.*;
@@ -37,6 +37,4 @@ public class AssistantMessagePanel extends MessagePanel {
         revalidate();
         repaint();
     }
-
-
 }

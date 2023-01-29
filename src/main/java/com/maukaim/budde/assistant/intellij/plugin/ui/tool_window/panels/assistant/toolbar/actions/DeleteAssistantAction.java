@@ -3,13 +3,12 @@ package com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assist
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.AssistantService;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.parent.AssistantDependentAction;
 import org.jetbrains.annotations.NotNull;
 
 public class DeleteAssistantAction extends AssistantDependentAction {
-
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
@@ -29,5 +28,4 @@ public class DeleteAssistantAction extends AssistantDependentAction {
             service.deleteAssistant(currentAssistant.getId());
         }
     }
-
 }

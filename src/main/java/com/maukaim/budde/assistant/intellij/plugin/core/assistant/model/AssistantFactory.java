@@ -1,7 +1,5 @@
 package com.maukaim.budde.assistant.intellij.plugin.core.assistant.model;
 
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.Assistant;
-
 import java.time.Instant;
 import java.util.List;
 

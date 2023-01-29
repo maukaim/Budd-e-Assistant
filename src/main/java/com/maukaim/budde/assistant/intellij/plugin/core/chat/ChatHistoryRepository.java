@@ -5,6 +5,8 @@ import com.intellij.openapi.components.Service;
 import com.intellij.openapi.components.State;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.OptionTag;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.RawMessage;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.UserMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -13,11 +13,13 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.PsiManager;
-import com.maukaim.budde.assistant.intellij.plugin.core.filetracker.FileTrackingService;
+import com.maukaim.budde.assistant.intellij.plugin.core.experimental.filetracker.FileTrackingService;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@ApiStatus.Experimental
 public class JavaFileChangeListener implements BulkFileListener {
     private final Project ctx;
     private final PsiManager psiManager;

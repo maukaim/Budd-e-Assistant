@@ -5,7 +5,6 @@ import com.intellij.openapi.project.Project;
 import javax.swing.*;
 import java.awt.*;
 
-
 public final class NoAssistantAvailable extends JPanel {
     private JTextField apiKeyField;
     private JLabel hint;

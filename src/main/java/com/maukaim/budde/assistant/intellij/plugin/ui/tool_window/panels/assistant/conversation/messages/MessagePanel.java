@@ -66,5 +66,4 @@ public abstract class MessagePanel extends JPanel {
 
         return iconPanel;
     }
-
 }

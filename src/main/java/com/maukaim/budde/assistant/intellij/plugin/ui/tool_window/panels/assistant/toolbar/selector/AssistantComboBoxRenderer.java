@@ -1,6 +1,6 @@
 package com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.selector;
 
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,5 +18,4 @@ public class AssistantComboBoxRenderer extends DefaultListCellRenderer {
         }
         return component;
     }
-
 }

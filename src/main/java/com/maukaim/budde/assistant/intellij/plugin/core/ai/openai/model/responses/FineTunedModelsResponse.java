@@ -1,7 +1,9 @@
 package com.maukaim.budde.assistant.intellij.plugin.core.ai.openai.model.responses;
 
-import java.util.List;
+import org.jetbrains.annotations.ApiStatus;
 
+import java.util.List;
+@ApiStatus.Experimental
 public class FineTunedModelsResponse {
     List<FineTunedModelDetails> data;
 

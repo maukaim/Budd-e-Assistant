@@ -3,7 +3,7 @@ package com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assist
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.AssistantService;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.parent.AssistantDependentAction;
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assistant.toolbar.actions.popup.CreativityManagementPopupManager;
@@ -32,5 +32,4 @@ public class CreativityLevelAction extends AssistantDependentAction {
         Project ctx = e.getProject();
         CreativityManagementPopupManager.createAndShow(ctx);
     }
-
 }

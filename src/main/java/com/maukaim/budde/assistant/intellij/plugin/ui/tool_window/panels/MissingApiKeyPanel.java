@@ -7,7 +7,6 @@ import javax.swing.*;
 
 import java.awt.*;
 
-
 public final class MissingApiKeyPanel extends JPanel {
     private JTextField apiKeyField;
     private JLabel hint;

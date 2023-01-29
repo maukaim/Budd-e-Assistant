@@ -1,4 +1,4 @@
-package com.maukaim.budde.assistant.intellij.plugin.core.assistant;
+package com.maukaim.budde.assistant.intellij.plugin.core.assistant.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

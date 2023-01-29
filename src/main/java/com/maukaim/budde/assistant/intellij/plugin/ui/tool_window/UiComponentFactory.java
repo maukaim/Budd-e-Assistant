@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class UiComponentFactory implements ToolWindowFactory {
 
-
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         SimpleToolWindowPanel panel = new BuddeAssistantToolWindow(new MissingApiKeyPanel(project),

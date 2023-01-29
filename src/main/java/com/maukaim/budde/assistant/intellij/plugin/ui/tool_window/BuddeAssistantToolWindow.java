@@ -8,7 +8,6 @@ import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.assista
 import com.maukaim.budde.assistant.intellij.plugin.ui.tool_window.panels.MissingApiKeyPanel;
 import org.apache.commons.lang.StringUtils;
 
-
 public class BuddeAssistantToolWindow extends SimpleToolWindowPanel implements AssistantConfigurationAware {
     private MissingApiKeyPanel missingApiKeyPanel;
     private AssistantsPanel mainPanel;

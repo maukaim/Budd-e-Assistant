@@ -1,4 +1,4 @@
-package com.maukaim.budde.assistant.intellij.plugin.core.filetracker;
+package com.maukaim.budde.assistant.intellij.plugin.core.experimental.filetracker;
 
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.module.Module;
@@ -7,8 +7,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiUtil;
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.AssistantService;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@ApiStatus.Experimental
 public final class FileTrackingService {
     private final Project ctx;
 

@@ -13,5 +13,4 @@ public class CreateAssistantAction extends AnAction {
         Project ctx = e.getProject();
         AssistantCreationPopupManager.createAndShow(ctx);
     }
-
 }

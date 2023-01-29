@@ -1,8 +1,8 @@
 package com.maukaim.budde.assistant.intellij.plugin.core.chat;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.intellij.util.xmlb.Converter;
+import com.maukaim.budde.assistant.intellij.plugin.core.chat.model.RawMessage;
 import com.maukaim.budde.assistant.intellij.plugin.core.marshall.JacksonMarshaller;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,5 +28,4 @@ public class ChatHistoryMapConverter extends Converter<Map<String, List<RawMessa
     public @Nullable String toString(@NotNull Map<String, List<RawMessage>> value) {
         return jacksonMarshaller.marshall(value);
     }
-
 }

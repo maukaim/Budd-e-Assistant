@@ -11,7 +11,7 @@ import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.JBUI;
-import com.maukaim.budde.assistant.intellij.plugin.core.assistant.Assistant;
+import com.maukaim.budde.assistant.intellij.plugin.core.assistant.model.Assistant;
 import com.maukaim.budde.assistant.intellij.plugin.core.assistant.AssistantService;
 
 import javax.swing.*;
@@ -55,7 +55,6 @@ public class ModuleTrackedPopupManager {
                 .addComponent(new JLabel("Tracked modules: "))
                 .addSeparator()
                 .addVerticalGap(8);
-
 
         moduleCheckBoxes.forEach(formBuilder::addComponent);
 

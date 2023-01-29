@@ -1,15 +1,16 @@
-package com.maukaim.budde.assistant.intellij.plugin.core.filetracker;
-
+package com.maukaim.budde.assistant.intellij.plugin.core.experimental.filetracker;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.intellij.util.xmlb.Converter;
 import com.maukaim.budde.assistant.intellij.plugin.core.marshall.JacksonMarshaller;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Set;
 
+@ApiStatus.Experimental
 public class PendingFileUpdateMapConverter extends Converter<Map<String, Set<String>>> {
     private JacksonMarshaller jacksonMarshaller;
 
@@ -28,5 +29,4 @@ public class PendingFileUpdateMapConverter extends Converter<Map<String, Set<Str
     public @Nullable String toString(@NotNull Map<String, Set<String>> value) {
         return jacksonMarshaller.marshall(value);
     }
-
 }
