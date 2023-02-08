@@ -35,6 +35,7 @@ ________________________
 - [X] Store states. Conversations Assistants,...
 - [X] Store API Key in a secured env. Leverage on IntelliJ's API.
 
+Interested to test? [Download on IntelliJ's Marketplace](https://plugins.jetbrains.com/plugin/20951-budd-e-assistant)
 
 ## Bugs
 ___________________
