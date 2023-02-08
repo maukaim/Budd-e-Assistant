@@ -18,7 +18,7 @@ public class FileMessagePanel extends MessagePanel<JavaFileIdentifier> {
 
     @Override
     protected Color getBgColor() {
-        return UIUtil.getPanelBackground().darker();
+        return UIUtil.getPanelBackground();
     }
 
     private void buildUi(JavaFileIdentifier messageToDisplay) {

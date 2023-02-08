@@ -1,11 +1,7 @@
 package com.maukaim.budde.assistant.intellij.plugin.core.ai.openai;
 
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.ExternalAIService;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.openai.model.requests.CompletionRequest;
 import com.maukaim.budde.assistant.intellij.plugin.core.ai.openai.model.requests.FaceRequest;

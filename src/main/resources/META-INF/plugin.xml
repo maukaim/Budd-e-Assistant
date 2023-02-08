@@ -20,7 +20,7 @@
     <em>Unofficial package.</em>
   ]]></description>
 
-    <version>ALPHA-1.0.0</version>
+    <version>1.0.0-ALPHA</version>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
